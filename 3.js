@@ -11,6 +11,12 @@ class Customer {
   /**
    * Метод відправки повідомлення клієнту по електронній пошті.Приймає message - повідомлення,та виводить в консоль ${this.email} ${message}.
    */
+  constructor(email) {
+    this.email = email;
+  }
+  message() {
+    console.log(`${this.email} ${message}`);
+  }
 }
 
 /**
@@ -20,6 +26,9 @@ class Product {
   /**
    * Конструктор для класу Product.Приймає name - Назва продукту.
    */
+  constructor(name) {
+    this.name = name;
+  }
 }
 
 /**
@@ -30,14 +39,26 @@ class Store {
   /**
    * Конструктор для класу Store.Приймає name - Назва магазину, та створює пустий масив customers
    */
+  constructor(name) {
+    this.name = name;
+    customers = [];
+  }
   /**
    * Метод subscribe для підписки клієнта на магазин. Приймає customer - Клієнт, який підписується.
    * Після виклику цього методу, клієнт буде отримувати повідомлення про нові продукти, через push додаємо клієнта до масиву.
    */
+  subscribe(customer) {
+    customer.subscribe();
+    this.customers.push(customer);
+  }
   /**
    * Метод unsubscribe для відписки клієнта від магазину.Приймає customer - Клієнт, який відписується.
    * Після виклику цього методу, клієнт більше не буде отримувати повідомлення про нові продукти, через filter прибираємо клієнта з масиву.
    */
+  unsubscribe(customer) {
+    customer.subscribe();
+    this.customers.filter(customer);
+  }
   /**
    * Метод createProduct для створення нового продукту в магазині.Приймає name - Назва нового продукту.
    * Після виклику цього методу, новий продукт буде створено, а всі підписники отримають про це повідомлення через sendNotify.
@@ -48,23 +69,34 @@ class Store {
    */
   // За допомогою forEach перебираємо масив customers
   // Для кожного елементу масиву викликаємо метод sendEmail з рядком `Новий продукт "${product.name}" в магазині ${this.name}!`
+  createProduct(name) {
+    const newProduct = { name };
+    this.products.push(newProduct);
+    this.sendNotify(newProduct);
+  }
+
+  sendNotify(product) {
+    this.customers.forEach(customer => {
+      customer.sendEmail(`Новий продукт ${product.name} в магазині ${this.name}!`);
+    });
+  }
 }
 
 console.log("Завдання 3 ====================================");
 // Після виконання розкоментуйте код нижче
 
-// const store = new Store("IT Supermarket");
+const store = new Store("IT Supermarket");
 
-// const customer1 = new Customer("john@example.com");
-// const customer2 = new Customer("jane@example.com");
-// const customer3 = new Customer("alice@example.com");
+const customer1 = new Customer("john@example.com");
+const customer2 = new Customer("jane@example.com");
+const customer3 = new Customer("alice@example.com");
 
-// store.subscribe(customer1);
-// store.subscribe(customer2);
-// store.subscribe(customer3);
+store.subscribe(customer1);
+store.subscribe(customer2);
+store.subscribe(customer3);
 
-// store.createProduct("Новий ноутбук");
+store.createProduct("Новий ноутбук");
 
-// store.unsubscribe(customer1);
+store.unsubscribe(customer1);
 
-// store.createProduct("Бездротові навушники");
+store.createProduct("Бездротові навушники");
