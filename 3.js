@@ -14,7 +14,7 @@ class Customer {
   constructor(email) {
     this.email = email;
   }
-  message() {
+  sendEmail(message) {
     console.log(`${this.email} ${message}`);
   }
 }
@@ -41,14 +41,13 @@ class Store {
    */
   constructor(name) {
     this.name = name;
-    customers = [];
+    this.customers = [];
   }
   /**
    * Метод subscribe для підписки клієнта на магазин. Приймає customer - Клієнт, який підписується.
    * Після виклику цього методу, клієнт буде отримувати повідомлення про нові продукти, через push додаємо клієнта до масиву.
    */
-  subscribe(customer) {
-    customer.subscribe();
+  subscribe(customer) {;
     this.customers.push(customer);
   }
   /**
@@ -56,8 +55,7 @@ class Store {
    * Після виклику цього методу, клієнт більше не буде отримувати повідомлення про нові продукти, через filter прибираємо клієнта з масиву.
    */
   unsubscribe(customer) {
-    customer.subscribe();
-    this.customers.filter(customer);
+    this.customers = this.customers.filter((c) => c !== customer);
   }
   /**
    * Метод createProduct для створення нового продукту в магазині.Приймає name - Назва нового продукту.
@@ -70,9 +68,8 @@ class Store {
   // За допомогою forEach перебираємо масив customers
   // Для кожного елементу масиву викликаємо метод sendEmail з рядком `Новий продукт "${product.name}" в магазині ${this.name}!`
   createProduct(name) {
-    const newProduct = { name };
-    this.products.push(newProduct);
-    this.sendNotify(newProduct);
+    const product = new Product9(name);
+    this.sendNotify(product);
   }
 
   sendNotify(product) {

@@ -31,6 +31,9 @@ class HoneyDecorator {
     const honeyCostPerGram = 0.5;
     return this.drink.price + honeyCostPerGram * this.amount;
   }
+  prepare() {
+    console.log(`Приготування ${this.name} з медом`);
+  }
 }
 console.log("Завдання 4 ====================================");
 // Після виконання розкоментуйте код нижче
